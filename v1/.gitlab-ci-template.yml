@@ -66,6 +66,7 @@
 
 .tag_ok_prod:
   stage: tag
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
   environment:
     name: master
   rules:
