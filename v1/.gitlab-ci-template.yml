@@ -1,0 +1,105 @@
+ 
+.build:
+  stage: build
+  script:   
+   - export REGISTRY_IMAGE=$CI_PROJECT_PATH$DOS_PUNTOS
+   - export IMAGE_VERSION=$CI_COMMIT_SHA
+   - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+   
+   - docker build --no-cache --build-arg main_name_project=${PROJECT_NAME} -t $REGISTRY_IMAGE$IMAGE_VERSION  .  
+   
+.deploy:
+  stage: deploy
+  script:
+   - export REGISTRY_IMAGE=$CI_PROJECT_PATH$DOS_PUNTOS
+   - export IMAGE_VERSION=$CI_COMMIT_SHA
+   - cd ${COMPOSE_PATH}
+   - if docker rm ${PROJECT_NAME} -f; then echo "Contenedor eliminado"; else echo "Contenedor no existe"; fi;
+   - docker-compose up --force-recreate --build -d ${PROJECT_NAME}
+
+.build_snapshot:
+  extends: .build
+  environment:
+   name: SNAPSHOT
+  rules:
+   - if: '$CI_COMMIT_BRANCH =~ /(.*)SNAPSHOT$/'
+     when: manual
+     
+.deploy_snapshot:
+  extends: .deploy
+  environment:
+   name: SNAPSHOT  
+  rules:
+   - if: '$CI_COMMIT_BRANCH =~ /(.*)SNAPSHOT$/'
+     when: on_success
+     
+.build_release:
+  extends: .build
+  environment:
+   name: RELEASE
+  rules:
+   - if: '$CI_COMMIT_BRANCH =~ /(.*)RELEASE$/'
+     when: manual
+.deploy_release:
+  extends: .deploy
+  environment:
+   name: RELEASE
+  rules:
+   - if: '$CI_COMMIT_BRANCH =~ /(.*)RELEASE$/'
+     when: on_success
+
+.build_prod:
+  extends: .build
+  environment:
+   name: master
+  rules:
+   - if: '$CI_COMMIT_BRANCH =="master"'
+     when: manual
+ 
+.deploy_prod:
+  extends: .deploy
+  environment:
+   name: master
+  rules:
+   - if: '$CI_COMMIT_BRANCH =="master"'
+     when: on_success
+
+.tag_ok_prod:
+  stage: tag
+  environment:
+    name: master
+  rules:
+  - if: '($CI_COMMIT_BRANCH =="master" && $CI_COMMIT_TITLE =~ /^\d{1,}.\d{1,}.\d{1,}$/)'
+    when: on_success
+  script:
+   - echo "DESCRIPCION DE MERGE CORRECTA "$CI_COMMIT_TITLE 
+  release:
+    tag_name: $CI_COMMIT_TITLE
+    description: $CI_COMMIT_DESCRIPTION
+
+.tag_error_prod:
+  stage: tag
+  environment:
+    name: master
+  rules:
+  - if: '($CI_COMMIT_BRANCH =="master" && $CI_COMMIT_TITLE !~ /^\d{1,}.\d{1,}.\d{1,}$/)'
+    when: on_success
+  script:
+   - echo "DESCRIPCION DE MERGE INCORRECTA "$CI_COMMIT_TITLE
+   - exit 1 
+
+.push_prod:
+  stage: push
+  environment:
+    name: master
+  rules:
+   - if: '$CI_COMMIT_TAG =~ /^\d{1,}.\d{1,}.\d{1,}$/'
+     when: on_success
+  script:
+    - export REGISTRY_IMAGE=$CI_REGISTRY/$CI_PROJECT_PATH$DOS_PUNTOS
+    - export IMAGE_VERSION=$CI_COMMIT_TAG
+    
+    - docker tag $CI_PROJECT_PATH$DOS_PUNTOS$CI_COMMIT_SHA $REGISTRY_IMAGE$IMAGE_VERSION
+       
+    - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+    - docker push ${REGISTRY_IMAGE}${IMAGE_VERSION}
