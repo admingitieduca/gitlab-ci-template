@@ -70,14 +70,13 @@
     name: master
   rules:
   - if: '($CI_COMMIT_BRANCH =="master" && $CI_COMMIT_TITLE =~ /^\d{1,}.\d{1,}.\d{1,}$/)'
-    when: manual
+    when: on_success
   script:
-   - export REPOSITORY_URL=$CI_SERVER_HOST/$CI_PROJECT_URL
+   - export REPOSITORY_URL=$CI_SERVER_HOST/$CI_PROJECT_PATH
    
    - echo "DESCRIPCION DE COMMIT CORRECTA VERSION :"$CI_COMMIT_TITLE
    - git tag -a $CI_COMMIT_TITLE -m "$CI_COMMIT_DESCRIPTION"
    - git push https://$USER:$PASSWORD@$REPOSITORY_URL $CI_COMMIT_TITLE
-
 
 .tag_error_prod:
   stage: tag
