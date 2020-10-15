@@ -87,7 +87,7 @@
     when: on_success
   script:
    - echo "DESCRIPCION DE COMMIT INCORRECTA :"$CI_COMMIT_TITLE
-   - echo "La primera linea debe tener al final el numero de version ->"$CI_COMMIT_TITLE" v.X.X.X"
+   - echo "La primera linea debe tener al final el numero de version ->COMMIT_TITLE v.X.X.X"
    - exit 1 
 
 .push_prod:
