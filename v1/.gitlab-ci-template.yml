@@ -73,8 +73,8 @@
   script:
    - export REPOSITORY_URL=$CI_SERVER_HOST/$CI_PROJECT_PATH
 
-   - export TAG=`echo "$CI_COMMIT_DESCRIPTION" | sed   's/^.*[^0-9]\([0-9]*\.[0-9]*\.[0-9]*\).*$/\1/'`
-   - echo "DESCRIPCION DE COMMIT CORRECTA VERSION :"$CI_COMMIT_TITLE
+   - export TAG=`echo "$CI_COMMIT_TITLE" | sed   's/^.*[^0-9]\([0-9]*\.[0-9]*\.[0-9]*\).*$/\1/'`
+   - echo "VERSION :"$TAG
    - git tag -a $TAG -m "$CI_COMMIT_DESCRIPTION"
    - git push https://$USER:$PASSWORD@$REPOSITORY_URL $TAG
 
