@@ -98,10 +98,10 @@
    - if: '$CI_COMMIT_TAG =~ /^\d{1,}.\d{1,}.\d{1,}$/'
      when: on_success
   script:
-    - export REGISTRY_IMAGE=$CI_REGISTRY/$CI_PROJECT_PATH$DOS_PUNTOS
+    - export REGISTRY_IMAGE=$CI_REGISTRY/$CI_PROJECT_PATH":"
     - export IMAGE_VERSION=$CI_COMMIT_TAG
     
-    - docker tag $CI_PROJECT_PATH$DOS_PUNTOS$CI_COMMIT_SHA $REGISTRY_IMAGE$IMAGE_VERSION
+    - docker tag $CI_PROJECT_PATH":"$CI_COMMIT_SHA $REGISTRY_IMAGE$IMAGE_VERSION
        
     - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
     - docker push ${REGISTRY_IMAGE}${IMAGE_VERSION}
