@@ -1,8 +1,10 @@
- 
+variables:
+  VERSION_REGEX: "^* v.\d{1,}.\d{1,}.\d{1,}$"
+
 .build:
   stage: build
   script:   
-   - export REGISTRY_IMAGE=$CI_PROJECT_PATH$DOS_PUNTOS
+   - export REGISTRY_IMAGE=$CI_PROJECT_PATH":"
    - export IMAGE_VERSION=$CI_COMMIT_SHA
    - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
    
