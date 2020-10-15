@@ -23,7 +23,7 @@
 .deploy_composer_master:
   extends: .deploy_composer
   environment:
-    name: RELEASE  
+    name: master  
   rules:
     - if: '$CI_COMMIT_BRANCH =="master"'
       when: manual  
