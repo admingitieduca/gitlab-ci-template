@@ -2,7 +2,7 @@
   stage: deploy
   script:
     - echo $COMPOSE_PATH
-    - mkdir -p $COMPOSE_PATH 
+    - mkdir -p "$COMPOSE_PATH"
     - cp -a . $COMPOSE_PATH
     - echo "Composer actualizado "$COMPOSE_PATH
 
