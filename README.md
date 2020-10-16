@@ -40,19 +40,23 @@ modificar los tags con el nombre de los runners respectivos
 
 ## Configuración de repositorio
 
-### App
-
-#### Environments
+### Environments
 
 Crear 3 enviroments  master, SNAPSHOT y RELEASE
 
 ![image-20201016144538532](./imagenes/image-20201016144538532.png)
 
-#### Proteger Branchs
+### Proteger Branchs
 
-![image-20201016145144907](.imagenes/image-20201016145144907.png)
+![image-20201016145144907](./imagenes/image-20201016145144907.png)
 
-#### Variables
+### Proteger Tags
+
+![image-20201016154548871](./imagenes/image-20201016154548871.png)
+
+### Variables
+
+#### APP
 
 Los repositorios de app deben configurarse  las variables COMPOSE_PATH y PROJECT_NAME
 
@@ -66,15 +70,13 @@ Las variables que contienen información sensible se configuran en el grupo y so
 
 ![image-20201016144326896](./imagenes/image-20201016144326896.png)
 
-### Composer
-
-#### Variables
+#### Composer
 
 Los repositorios composer deben tener la variable   COMPOSE_PATH de la carpeta donde estara el composer
 
 ![image-20201016130429808](./imagenes/composer-variables.png)
 
-#### Branchs
+#### 
 
 
 
