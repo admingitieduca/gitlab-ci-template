@@ -1,0 +1,76 @@
+include:
+  - remote: 'https://gitlab.com/developers.ieduca/devops/gitlab-ci-template/-/raw/master/v1/.gitlab-ci-template.yml'
+
+stages:
+  - build
+  - deploy
+  - tag
+  - push
+
+#build : genera la imagen con id del commit
+#deploy : despliega la imagen generada con el id del commit
+#tag : coloca el numero de version en master en el tag del commit
+#push : sube al repositorio la iamgen con el tag de la version generada
+
+variables:
+  DOCKER_TYPE: "mule"
+
+#DEV-------------------------------------------------------------------------->
+#Los branch soportados deben terminar en SNAPSHOT
+build_snapshot:
+  extends: .build_snapshot
+  tags:
+   - dev-plantilla-mule
+
+deploy_snapshot:
+  extends: .deploy_snapshot
+  tags:
+   - dev-plantilla-mule
+
+#QA-------------------------------------------------------------------------->
+#Los branch soportados deben terminar en RELEASE
+build_release:
+  extends: .build_release
+  tags:
+   - qa-plantilla-mule
+
+# Las variables de QA se colocan en el before_script del job deploy_release
+deploy_release:
+  extends: .deploy_release
+  before_script:
+   - export VARIABLE=$QA_VARIABLE
+  tags:
+   - qa-plantilla-mule
+
+#PRD--------------------------------------------------------------------------<
+#El branch debe es master
+build_prod:
+  extends: .build_prod
+  tags:
+   - prd-plantilla-mule
+
+# Las variables de QA se colocan en el before_script del job deploy_release
+deploy_prod:
+  extends: .deploy_prod
+  before_script:
+    - export VARIABLE=$PRD_VARIABLE
+  tags:
+    - prd-plantilla-mule
+
+#Solo se activa si el commit a master contiene la version al final de la linea  : v.x.x.x
+tag_ok_prod: 
+  extends: .tag_ok_prod
+  tags:
+  - prd-plantilla-mule
+
+#se generar error si el commit a master no contiene la version al final de la linea  : v.x.x.x
+tag_error_prod: 
+  extends: .tag_error_prod
+  tags:
+  - prd-plantilla-mule
+
+#se lanza automaticamente si el se creo un tag, solo funciona si es un tag del branch master
+push_prod: 
+  extends: .push_prod
+  tags:
+  - prd-plantilla-mule   
