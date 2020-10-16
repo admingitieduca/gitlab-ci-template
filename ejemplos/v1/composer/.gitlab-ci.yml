@@ -12,7 +12,7 @@ deploy_snapshot:
 deploy_release:
   extends: .deploy_composer_release
   tags:
-     - dev-composer-comercial
+     - qa-composer-comercial
 
 deploy_prod:
   extends: .deploy_composer_master
