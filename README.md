@@ -14,7 +14,7 @@ modificar los tags con el nombre de los runners respectivos
 
 Las variables de QA se colocan en el before_script del job deploy_release
 
-![image-20201016142728922](/persistence/repos/gitlab-ci-template/imagenes/image-20201016142728922.png)
+![image-20201016142728922](./imagenes/image-20201016142728922.png)
 
 Las variables de PRD se colocan en el before_script del job deploy_prod
 
