@@ -1,0 +1,20 @@
+include:
+  - remote: 'https://gitlab.com/developers.ieduca/devops/gitlab-ci-template/-/raw/master/v1/.gitlab-ci-template-composer.yml'
+
+stages:
+  - deploy
+
+deploy_snapshot:
+  extends: .deploy_composer_snapshot
+  tags:
+     - dev-composer-comercial
+
+deploy_release:
+  extends: .deploy_composer_release
+  tags:
+     - dev-composer-comercial
+
+deploy_prod:
+  extends: .deploy_composer_master
+  tags:
+     - prd-composer-comercial
