@@ -20,34 +20,34 @@ variables:
 build_snapshot:
   extends: .build_snapshot
   tags:
-   - dev-plantilla-mule
+    - dev-plantilla-mule
 
 deploy_snapshot:
   extends: .deploy_snapshot
   tags:
-   - dev-plantilla-mule
+    - dev-plantilla-mule
 
 #QA-------------------------------------------------------------------------->
 #Los branch soportados deben terminar en RELEASE
 build_release:
   extends: .build_release
   tags:
-   - qa-plantilla-mule
+    - qa-plantilla-mule
 
 # Las variables de QA se colocan en el before_script del job deploy_release
 deploy_release:
   extends: .deploy_release
   before_script:
-   - export VARIABLE=$QA_VARIABLE
+    - export VARIABLE=$QA_VARIABLE
   tags:
-   - qa-plantilla-mule
+    - qa-plantilla-mule
 
 #PRD--------------------------------------------------------------------------<
 #El branch debe es master
 build_prod:
   extends: .build_prod
   tags:
-   - prd-plantilla-mule
+    - prd-plantilla-mule
 
 # Las variables de QA se colocan en el before_script del job deploy_release
 deploy_prod:
@@ -61,16 +61,16 @@ deploy_prod:
 tag_ok_prod: 
   extends: .tag_ok_prod
   tags:
-  - prd-plantilla-mule
+    - prd-plantilla-mule
 
 #se generar error si el commit a master no contiene la version al final de la linea  : v.x.x.x
 tag_error_prod: 
   extends: .tag_error_prod
   tags:
-  - prd-plantilla-mule
+    - prd-plantilla-mule
 
 #se lanza automaticamente si el se creo un tag, solo funciona si es un tag del branch master
 push_prod: 
   extends: .push_prod
   tags:
-  - prd-plantilla-mule   
+    - prd-plantilla-mule   
