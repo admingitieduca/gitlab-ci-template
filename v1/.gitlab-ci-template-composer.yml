@@ -3,6 +3,9 @@
   script:
     - echo $COMPOSE_PATH
     - mkdir -p "$COMPOSE_PATH"
+    - if [ -d "${COMPOSE_PATH}/.git" ]; then
+    - sudo rm ${COMPOSE_PATH}/.git -Rf
+    - fi;
     - cp -a . $COMPOSE_PATH
     - echo "Composer actualizado "$COMPOSE_PATH
 
