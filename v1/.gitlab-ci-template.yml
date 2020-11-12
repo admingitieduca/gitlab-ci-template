@@ -5,6 +5,7 @@
    - export IMAGE_VERSION=$CI_COMMIT_SHA
    - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
    - echo "tag :"$REGISTRY_IMAGE$IMAGE_VERSION
+   - echo "PROJECT_NAME:"${PROJECT_NAME}
    - docker build --no-cache --build-arg main_name_project=${PROJECT_NAME} -t $REGISTRY_IMAGE$IMAGE_VERSION  .  
    
 .deploy:
@@ -13,6 +14,7 @@
    - export REGISTRY_IMAGE=$CI_PROJECT_PATH":"
    - export IMAGE_VERSION=$CI_COMMIT_SHA
    - echo "tag :"$REGISTRY_IMAGE$IMAGE_VERSION
+   - echo "PROJECT_NAME:"${PROJECT_NAME}
    - cd ${COMPOSE_PATH}
    - if docker rm ${PROJECT_NAME} -f; then echo "Contenedor eliminado"; else echo "Contenedor no existe"; fi;
    - docker-compose up --force-recreate --build -d ${PROJECT_NAME}
