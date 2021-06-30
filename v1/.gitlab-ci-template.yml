@@ -6,6 +6,7 @@
    - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
    - echo "tag :"$REGISTRY_IMAGE$IMAGE_VERSION
    - echo "PROJECT_NAME:"${PROJECT_NAME}
+   - docker system prune -f -a --filter "until=24h"
    - docker build --no-cache --build-arg main_name_project=${PROJECT_NAME} -t $REGISTRY_IMAGE$IMAGE_VERSION  .  
    
 .deploy:

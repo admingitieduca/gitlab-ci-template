@@ -1,4 +1,7 @@
 # AUTODEPLOY
+El repositorio se encuentra en 2 repos 
+    [gitlab](https://gitlab.com/developers.ieduca/devops/gitlab-ci-template)
+    [github](https://github.com/admingitieduca/gitlab-ci-template)
 
 ## Configuración YML
 
